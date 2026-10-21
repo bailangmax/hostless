@@ -1,0 +1,25 @@
+build:
+  command: ""
+  system: docker
+  min_cpu: 0.25
+  max_cpu: 0.5
+  min_memory: 512
+  max_memory: 8192
+dockerfile_path: Dockerfile
+working_directory: /
+post_build_command: ""
+scaling:
+  min_cpu: 0.01
+  max_cpu: 0.1
+  min_memory: 128
+  max_memory: 256
+  min_replicas: 1
+  max_replicas: 1
+health_check:
+  type: tcp
+  interval_in_seconds: 60
+cron_jobs: []
+workers: []
+review_apps:
+  enabled: false
+  ttl_days: 7
