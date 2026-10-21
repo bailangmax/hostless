@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨染 · 古风佳人</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #0c0910;
+    color: #f4e6d0;
+    font-family: "Microsoft YaHei", "STKaiti", serif;
+    overflow-x: hidden;
+}
+
+/* 主页面 */
+.hero {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 70% 40%,
+            rgba(125, 68, 101, .3),
+            transparent 50%
+        ),
+        linear-gradient(
+            135deg,
+            #0c0910,
+            #251522 55%,
+            #100c15
+        );
+}
+
+/* 背景山水 */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .2;
+    background:
+        linear-gradient(
+            135deg,
+            transparent 45%,
+            #8f7180 46%,
+            transparent 47%
+        );
+    background-size: 180px 180px;
+    pointer-events: none;
+}
+
+/* 导航 */
+.nav {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    color: #f0d49c;
+}
+
+.logo small {
+    display: block;
+    font-size: 10px;
+    font-weight: normal;
+    letter-spacing: 3px;
+    color: #a9988b;
+    margin-top: 8px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #c8b7a5;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: #e6bd76;
+}
+
+/* 主内容 */
+.content {
+    min-height: calc(100vh - 90px);
+    max-width: 1500px;
+    margin: auto;
+    padding: 30px 7% 90px;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* 左侧文字 */
+.text-box {
+    animation: fadeUp 1.2s ease both;
+}
+
+.eyebrow {
+    color: #d9b878;
+    font-size: 13px;
+    letter-spacing: 7px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(48px, 6vw, 90px);
+    line-height: 1.2;
+    letter-spacing: 12px;
+    color: #f5e5ca;
+    text-shadow: 0 8px 30px #0008;
+}
+
+h1 span {
+    display: block;
+    color: #d8ad69;
+    font-size: .48em;
+    letter-spacing: 7px;
+    margin-top: 20px;
+}
+
+.divider {
+    margin: 30px 0;
+    color: #d9b878;
+    font-size: 20px;
+    letter-spacing: 10px;
+}
+
+.desc {
+    color: #b8a696;
+    line-height: 2.3;
+    font-size: 14px;
+    max-width: 320px;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 30px;
+    border: 1px solid #b99358;
+    color: #e9cc94;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #a45c70, #633344);
+    border-color: #c38a8f;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    background: #c19a5b;
+    color: #20131a;
+    box-shadow: 0 8px 30px #0005;
+}
+
+/* 右侧真实美女 */
+.image-area {
+    position: relative;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.4s ease both;
+}
+
+.image-glow {
+    position: absolute;
+    width: 75%;
+    height: 90%;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse,
+        rgba(190, 113, 143, .22),
+        transparent 70%
+    );
+    filter: blur(25px);
+}
+
+.beauty-image {
+    width: 100%;
+    max-width: 760px;
+    height: auto;
+    max-height: 78vh;
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 2;
+    filter: contrast(1.04) saturate(.95);
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 88%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        black 88%,
+        transparent 100%
+    );
+    transition: transform .3s ease;
+}
+
+/* 图片装饰 */
+.frame {
+    position: absolute;
+    inset: 4% 5%;
+    border: 1px solid rgba(217,184,120,.3);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.frame::before,
+.frame::after {
+    content: "✦";
+    position: absolute;
+    color: #d9b878;
+    font-size: 23px;
+}
+
+.frame::before {
+    top: -14px;
+    left: -12px;
+}
+
+.frame::after {
+    bottom: -14px;
+    right: -12px;
+}
+
+/* 花瓣 */
+.petal {
+    position: absolute;
+    color: #e2a5b0;
+    font-size: 28px;
+    opacity: .8;
+    animation: float 7s ease-in-out infinite;
+    z-index: 5;
+}
+
+.p1 {
+    top: 15%;
+    left: 5%;
+}
+
+.p2 {
+    top: 35%;
+    right: 5%;
+    animation-delay: 2s;
+}
+
+.p3 {
+    bottom: 15%;
+    left: 45%;
+    animation-delay: 4s;
+}
+
+/* 印章 */
+.seal {
+    position: absolute;
+    right: 7%;
+    bottom: 50px;
+    width: 62px;
+    height: 62px;
+    border: 2px solid #a95761;
+    color: #a95761;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    line-height: 1.1;
+    text-align: center;
+    transform: rotate(8deg);
+    z-index: 5;
+}
+
+/* 底部 */
+.bottom-info {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    color: #796d64;
+    font-size: 11px;
+    letter-spacing: 3px;
+    z-index: 10;
+}
+
+/* 第二部分 */
+.about {
+    min-height: 55vh;
+    padding: 100px 8%;
+    text-align: center;
+    background:
+        radial-gradient(
+            ellipse at center,
+            #35202c,
+            #130e17 65%
+        );
+}
+
+.about small {
+    color: #d9b878;
+    letter-spacing: 5px;
+}
+
+.about h2 {
+    font-size: clamp(32px, 5vw, 58px);
+    letter-spacing: 10px;
+    margin: 25px 0;
+    color: #f2ddbb;
+}
+
+.about p {
+    color: #ad9b8a;
+    line-height: 2.5;
+    max-width: 500px;
+    margin: auto;
+    font-size: 15px;
+}
+
+.about .symbol {
+    color: #b76c78;
+    font-size: 30px;
+    margin-top: 40px;
+}
+
+/* 动画 */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-25px) rotate(15deg);
+    }
+}
+
+/* 手机适配 */
+@media (max-width: 850px) {
+
+    .nav {
+        padding: 20px 6%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        padding: 45px 6% 70px;
+        gap: 25px;
+    }
+
+    .text-box {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 52px;
+        letter-spacing: 7px;
+    }
+
+    h1 span {
+        font-size: .48em;
+        letter-spacing: 3px;
+    }
+
+    .eyebrow {
+        letter-spacing: 4px;
+    }
+
+    .desc {
+        margin: auto;
+    }
+
+    .divider {
+        margin: 22px 0;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .image-area {
+        width: 100%;
+    }
+
+    .beauty-image {
+        max-height: none;
+        width: 100%;
+    }
+
+    .frame {
+        inset: 3%;
+    }
+
+    .seal {
+        bottom: 30px;
+        right: 6%;
+    }
+
+    .bottom-info {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        padding: 0 6% 25px;
+        justify-content: center;
+    }
+
+    .bottom-info span {
+        display: none;
+    }
+}
+
+@media (max-width: 430px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    .beauty-image {
+        width: 110%;
+        max-width: none;
+        margin-left: -5%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero" id="home">
+
+    <!-- 导航 -->
+    <nav class="nav">
+        <div class="logo">
+            墨染
+            <small>MO RAN · ORIENTAL BEAUTY</small>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">佳人</a></li>
+            <li><a href="#poem">诗意</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="content">
+
+        <div class="text-box">
+
+            <div class="eyebrow">
+                东方美学 · 古韵新生
+            </div>
+
+            <h1>
+                墨染
+                <span>一袭风华 · 倾城佳人</span>
+            </h1>
+
+            <div class="divider">
+                ✦
+            </div>
+
+            <p class="desc">
+                云鬓轻挽，黛眉如画。<br>
+                一袭绛紫长裙，映衬黑丝流韵。<br>
+                于水墨山河之间，寻一段东方诗意。
+            </p>
+
+            <div class="buttons">
+                <a href="#about" class="btn primary">
+                    赏 · 佳人
+                </a>
+
+                <a href="#poem" class="btn">
+                    观 · 古韵
+                </a>
+            </div>
+
+        </div>
+
+        <!-- 真实美女图片 -->
+        <div class="image-area">
+
+            <div class="image-glow"></div>
+
+            <div class="frame"></div>
+
+            <img
+                src="beauty.png"
+                alt="古风黑丝美女，身着紫黑色古风服饰，置身月光山水之间"
+                class="beauty-image"
+                id="beautyImage"
+            >
+
+            <div class="petal p1">✿</div>
+            <div class="petal p2">❀</div>
+            <div class="petal p3">✾</div>
+
+        </div>
+
+    </main>
+
+    <div class="seal">
+        墨<br>染
+    </div>
+
+    <div class="bottom-info">
+        <span>EST. 2026 · ORIENTAL ART</span>
+        <span>✦ SCROLL TO EXPLORE ✦</span>
+    </div>
+
+</section>
+
+<!-- 介绍 -->
+<section class="about" id="about">
+
+    <small>东方美学</small>
+
+    <h2>一顾倾城</h2>
+
+    <p>
+        以水墨为底，以绛紫为韵。<br>
+        让古典之美，在现代网页中重新绽放。
+    </p>
+
+    <div class="symbol">❈</div>
+
+</section>
+
+<!-- 诗意 -->
+<section class="about" id="poem" style="background:#0c0910;">
+
+    <small>古风诗意</small>
+
+    <h2>月下佳人</h2>
+
+    <p>
+        月照花林皆似霰，<br>
+        佳人一笑，风华无边。<br>
+        <br>
+        山河入画，清风入梦。
+    </p>
+
+    <div class="symbol">✦</div>
+
+</section>
+
+<script>
+// 图片鼠标轻微视差
+const image = document.getElementById("beautyImage");
+
+document.querySelector(".image-area").addEventListener("mousemove", function(e) {
+
+    if (window.innerWidth <= 850) return;
+
+    const rect = this.getBoundingClientRect();
+
+    const x = (e.clientX - rect.left) / rect.width - .5;
+    const y = (e.clientY - rect.top) / rect.height - .5;
+
+    image.style.transform =
+        `translate(${x * 12}px, ${y * 8}px)`;
+
+});
+
+document.querySelector(".image-area").addEventListener("mouseleave", function() {
+    image.style.transform = "";
+});
+</script>
+
+</body>
+</html>
