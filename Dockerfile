@@ -1,16 +1,15 @@
-FROM python:3.12-slim
+FROM node:alpine3.22
 
-WORKDIR /app
+WORKDIR /tmp
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends procps bash curl openssl ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
+COPY index.js index.html package.json ./
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 3000/tcp
 
-COPY app.py index.html ./
+RUN apk update && apk upgrade &&\
+    apk add --no-cache openssl curl gcompat iproute2 coreutils &&\
+    apk add --no-cache bash &&\
+    chmod +x index.js &&\
+    npm install
 
-EXPOSE 3000
-
-CMD ["python3", "app.py"]
+CMD ["node", "index.js"]
