@@ -10,14 +10,11 @@ RUN apk update && apk upgrade && \
 COPY package.json ./
 RUN npm install
 
-# 复制源码
+# 复制源码并赋予权限
 COPY index.js index.html ./
-RUN chmod +x index.js
-
-# 关键：同时做软链接到 /tmp，防止平台强制调用 node /tmp/index.js
-RUN ln -sf /app/index.js /tmp/index.js && \
-    ln -sf /app/node_modules /tmp/node_modules
+RUN chmod -R 777 /app
 
 EXPOSE 3000
 
-CMD ["node", "/app/index.js"]
+# 关键：容器启动时将文件同步到唯一可写的 /tmp 目录，进入 /tmp 运行
+CMD ["sh", "-c", "cp -a /app/. /tmp/ && cd /tmp && exec node index.js"]
